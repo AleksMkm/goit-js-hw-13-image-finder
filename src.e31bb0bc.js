@@ -3012,9 +3012,13 @@ function onSearch(e) {
       _lightbox.default.loadingPlaceholder.close();
     }).catch(function (error) {
       _notifications.default.throwNotice();
+
+      _lightbox.default.loadingPlaceholder.close();
     });
   }).catch(function (error) {
     _notifications.default.throwNotice();
+
+    _lightbox.default.loadingPlaceholder.close();
   });
   searchField.value = '';
 }
@@ -3049,9 +3053,13 @@ function onScroll(e) {
         });
       }).catch(function (error) {
         _notifications.default.throwNotice();
+
+        _lightbox.default.loadingPlaceholder.close();
       });
     }).catch(function (error) {
       _notifications.default.throwNotice();
+
+      _lightbox.default.loadingPlaceholder.close();
     });
   }
 }
