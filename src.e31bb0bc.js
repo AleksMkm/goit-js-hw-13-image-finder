@@ -3013,6 +3013,8 @@ function onSearch(e) {
     }).catch(function (error) {
       _notifications.default.throwNotice();
     });
+  }).catch(function (error) {
+    _notifications.default.throwNotice();
   });
   searchField.value = '';
 }
@@ -3048,6 +3050,8 @@ function onScroll(e) {
       }).catch(function (error) {
         _notifications.default.throwNotice();
       });
+    }).catch(function (error) {
+      _notifications.default.throwNotice();
     });
   }
 }
