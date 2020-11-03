@@ -20,7 +20,10 @@
   },
   "homepage": "https://github.com/AleksMkm/goit-js-hw-13-image-finder#readme",
   "devDependencies": {
+    "@pnotify/core": "^5.1.2",
+    "basiclightbox": "^5.0.3",
     "gh-pages": "^3.1.0",
+    "infinite-scroll": "^3.0.6",
     "modern-normalize": "^1.0.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-handlebars-precompile": "^1.0.2"
