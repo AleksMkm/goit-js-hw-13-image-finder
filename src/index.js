@@ -1,3 +1,4 @@
+import '../node_modules/modern-normalize/modern-normalize.css';
 import './main.css';
 import '../node_modules/basiclightbox/dist/basicLightbox.min.css';
 import '@pnotify/core/dist/PNotify.css';

@@ -19,6 +19,16 @@ export default class ApiService {
       });
   }
 
+  countImages() {
+    const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+
+    return fetch(url)
+      .then(response => response.json())
+      .then(({ totalHits }) => {
+        return totalHits;
+      });
+  }
+
   get searchQuery() {
     return this._searchQuery;
   }
