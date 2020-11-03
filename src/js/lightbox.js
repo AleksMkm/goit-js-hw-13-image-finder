@@ -7,4 +7,8 @@ const loadingPlaceholder = basicLightbox.create(
   `<img src="${loadingImgUrl}"/>`,
 );
 
-export default { loadingPlaceholder };
+function bigImg(data) {
+  return basicLightbox.create(`<img src="${data}"/>`);
+}
+
+export default { loadingPlaceholder, bigImg };
