@@ -2925,7 +2925,7 @@ function throwNotice() {
   (0, _core.notice)({
     title: 'Well..',
     text: 'Something went wrong. Please reload a page.',
-    delay: 1500
+    delay: 3000
   });
 }
 
