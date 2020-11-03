@@ -227,7 +227,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var KEY = '18962627-3cde470dd8252503102b1f7f8';
-var BASE_URL = "https://pixabay.com/api";
+var BASE_URL = "https://pixabay.com/api/";
 
 var ApiService = /*#__PURE__*/function () {
   function ApiService() {
