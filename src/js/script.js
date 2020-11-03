@@ -25,23 +25,30 @@ function onSearch(e) {
   markup.clearImageContainer();
   apiService.page = 1;
   apiService.searchQuery = searchField.value;
-  apiService.countImages().then(count => {
-    if (count === 0) {
-      notification.throwErrorNotFound();
-      modal.loadingPlaceholder.close();
-      return;
-    }
-    apiService
-      .fetchImages()
-      .then(data => {
-        markup.renderImageCards(data);
-        window.addEventListener('scroll', throttledScroll);
+  apiService
+    .countImages()
+    .then(count => {
+      if (count === 0) {
+        notification.throwErrorNotFound();
         modal.loadingPlaceholder.close();
-      })
-      .catch(error => {
-        notification.throwNotice();
-      });
-  });
+        return;
+      }
+      apiService
+        .fetchImages()
+        .then(data => {
+          markup.renderImageCards(data);
+          window.addEventListener('scroll', throttledScroll);
+          modal.loadingPlaceholder.close();
+        })
+        .catch(error => {
+          notification.throwNotice();
+          modal.loadingPlaceholder.close();
+        });
+    })
+    .catch(error => {
+      notification.throwNotice();
+      modal.loadingPlaceholder.close();
+    });
   searchField.value = '';
 }
 
@@ -51,30 +58,37 @@ function onScroll(e) {
     document.documentElement.scrollHeight - 1
   ) {
     modal.loadingPlaceholder.show();
-    apiService.countImages().then(count => {
-      if (count === refs.galleryContainer.childElementCount) {
-        notification.throwInfo();
-        window.removeEventListener('scroll', throttledScroll);
-        modal.loadingPlaceholder.close();
-        return;
-      }
-      apiService
-        .fetchImages()
-        .then(data => {
-          apiService.page += 1;
-          currentWindowHeight = refs.galleryContainer.offsetHeight;
-          markup.renderImageCards(data);
+    apiService
+      .countImages()
+      .then(count => {
+        if (count === refs.galleryContainer.childElementCount) {
+          notification.throwInfo();
+          window.removeEventListener('scroll', throttledScroll);
           modal.loadingPlaceholder.close();
-          window.scrollTo({
-            top: currentWindowHeight + refs.header.offsetHeight,
-            left: 0,
-            behavior: 'smooth',
+          return;
+        }
+        apiService
+          .fetchImages()
+          .then(data => {
+            apiService.page += 1;
+            currentWindowHeight = refs.galleryContainer.offsetHeight;
+            markup.renderImageCards(data);
+            modal.loadingPlaceholder.close();
+            window.scrollTo({
+              top: currentWindowHeight + refs.header.offsetHeight,
+              left: 0,
+              behavior: 'smooth',
+            });
+          })
+          .catch(error => {
+            notification.throwNotice();
+            modal.loadingPlaceholder.close();
           });
-        })
-        .catch(error => {
-          notification.throwNotice();
-        });
-    });
+      })
+      .catch(error => {
+        notification.throwNotice();
+        modal.loadingPlaceholder.close();
+      });
   }
 }
 
