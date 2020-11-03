@@ -226,7 +226,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=что_искать&page=номер_страницы&per_page=12&key=${KEY}
 var KEY = '18962627-3cde470dd8252503102b1f7f8';
 var BASE_URL = "https://pixabay.com/api";
 
@@ -235,7 +234,7 @@ var ApiService = /*#__PURE__*/function () {
     _classCallCheck(this, ApiService);
 
     this._page = 1;
-    this._searchQuery = 'corgi';
+    this._searchQuery = '';
   }
 
   _createClass(ApiService, [{
