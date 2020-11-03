@@ -14,15 +14,20 @@
     />
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="query"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-    </form>
-    <ul class="gallery"></ul>
+    <div class="search">
+      <h1 class="title">Please enter your query:</h1>
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="query"
+          autocomplete="off"
+          placeholder="Search images..."
+          class="search-field"
+        />
+        <button type="submit" class="search-btn">Go!</button>
+      </form>
+    </div>
+    <ul class="gallery" id="gallery"></ul>
     <script src="./index.js"></script>
   </body>
 </html>
