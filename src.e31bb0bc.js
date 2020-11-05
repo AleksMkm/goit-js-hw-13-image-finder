@@ -219,66 +219,62 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+const KEY = '18962627-3cde470dd8252503102b1f7f8';
+const BASE_URL = `https://pixabay.com/api/`;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var KEY = '18962627-3cde470dd8252503102b1f7f8';
-var BASE_URL = "https://pixabay.com/api/";
-
-var ApiService = /*#__PURE__*/function () {
-  function ApiService() {
-    _classCallCheck(this, ApiService);
-
+class ApiService {
+  constructor() {
     this._page = 1;
     this._searchQuery = '';
   }
 
-  _createClass(ApiService, [{
-    key: "fetchImages",
-    value: function fetchImages() {
-      var url = "".concat(BASE_URL, "?image_type=photo&orientation=horizontal&q=").concat(this._searchQuery, "&page=").concat(this._page, "&per_page=12&key=").concat(KEY);
-      return fetch(url).then(function (response) {
-        return response.json();
-      }).then(function (_ref) {
-        var hits = _ref.hits;
-        return hits;
-      });
-    }
-  }, {
-    key: "countImages",
-    value: function countImages() {
-      var url = "".concat(BASE_URL, "?image_type=photo&orientation=horizontal&q=").concat(this._searchQuery, "&page=").concat(this._page, "&per_page=12&key=").concat(KEY);
-      return fetch(url).then(function (response) {
-        return response.json();
-      }).then(function (_ref2) {
-        var totalHits = _ref2.totalHits;
-        return totalHits;
-      });
-    }
-  }, {
-    key: "searchQuery",
-    get: function get() {
-      return this._searchQuery;
-    },
-    set: function set(newSearchQuery) {
-      this._searchQuery = newSearchQuery;
-    }
-  }, {
-    key: "page",
-    get: function get() {
-      return this._page;
-    },
-    set: function set(newPage) {
-      this._page = newPage;
-    }
-  }]);
+  async fetchImages() {
+    const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+    const images = await fetch(url);
+    const response = await images.json();
+    return response.hits;
+  } // fetchImages() {
+  //   const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+  //   return fetch(url)
+  //     .then(response => response.json())
+  //     .then(({ hits }) => {
+  //       return hits;
+  //     });
+  // }
 
-  return ApiService;
-}();
+
+  async countImages() {
+    const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+    const images = await fetch(url);
+    const response = await images.json();
+    return response.totalHits;
+  } // countImages() {
+  //   const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+  //   return fetch(url)
+  //     .then(response => response.json())
+  //     .then(({ totalHits }) => {
+  //       return totalHits;
+  //     });
+  // }
+
+
+  get searchQuery() {
+    return this._searchQuery;
+  }
+
+  set searchQuery(newSearchQuery) {
+    this._searchQuery = newSearchQuery;
+  }
+
+  get page() {
+    return this._page;
+  }
+
+  set page(newPage) {
+    this._page = newPage;
+  }
+
+}
 
 exports.default = ApiService;
 },{}],"js/get-refs.js":[function(require,module,exports) {
@@ -2969,10 +2965,10 @@ var _notifications = _interopRequireDefault(require("./notifications"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var refs = (0, _getRefs.default)();
-var apiService = new _apiService.default();
-var currentWindowHeight = 0;
-var throttledScroll = (0, _lodash.default)(onScroll, 500);
+const refs = (0, _getRefs.default)();
+const apiService = new _apiService.default();
+let currentWindowHeight = 0;
+const throttledScroll = (0, _lodash.default)(onScroll, 500);
 refs.form.addEventListener('submit', onSearch);
 refs.galleryContainer.addEventListener('click', openModal);
 
@@ -2981,7 +2977,7 @@ function onSearch(e) {
 
   _lightbox.default.loadingPlaceholder.show();
 
-  var searchField = e.currentTarget.elements.query;
+  let searchField = e.currentTarget.elements.query;
 
   if (searchField.value === '') {
     _notifications.default.throwErrorNoQuery();
@@ -2995,7 +2991,7 @@ function onSearch(e) {
 
   apiService.page = 1;
   apiService.searchQuery = searchField.value;
-  apiService.countImages().then(function (count) {
+  apiService.countImages().then(count => {
     if (count === 0) {
       _notifications.default.throwErrorNotFound();
 
@@ -3004,18 +3000,18 @@ function onSearch(e) {
       return;
     }
 
-    apiService.fetchImages().then(function (data) {
+    apiService.fetchImages().then(data => {
       _markup.default.renderImageCards(data);
 
       window.addEventListener('scroll', throttledScroll);
 
       _lightbox.default.loadingPlaceholder.close();
-    }).catch(function (error) {
+    }).catch(error => {
       _notifications.default.throwNotice();
 
       _lightbox.default.loadingPlaceholder.close();
     });
-  }).catch(function (error) {
+  }).catch(error => {
     _notifications.default.throwNotice();
 
     _lightbox.default.loadingPlaceholder.close();
@@ -3027,7 +3023,7 @@ function onScroll(e) {
   if (pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 1) {
     _lightbox.default.loadingPlaceholder.show();
 
-    apiService.countImages().then(function (count) {
+    apiService.countImages().then(count => {
       if (count === refs.galleryContainer.childElementCount) {
         _notifications.default.throwInfo();
 
@@ -3038,7 +3034,7 @@ function onScroll(e) {
         return;
       }
 
-      apiService.fetchImages().then(function (data) {
+      apiService.fetchImages().then(data => {
         apiService.page += 1;
         currentWindowHeight = refs.galleryContainer.offsetHeight;
 
@@ -3052,12 +3048,12 @@ function onScroll(e) {
           left: 0,
           behavior: 'smooth'
         });
-      }).catch(function (error) {
+      }).catch(error => {
         _notifications.default.throwNotice();
 
         _lightbox.default.loadingPlaceholder.close();
       });
-    }).catch(function (error) {
+    }).catch(error => {
       _notifications.default.throwNotice();
 
       _lightbox.default.loadingPlaceholder.close();
@@ -3112,7 +3108,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52861" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64296" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
