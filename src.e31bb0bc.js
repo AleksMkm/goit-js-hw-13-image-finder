@@ -3047,7 +3047,8 @@ function onScroll(e) {
         _lightbox.default.loadingPlaceholder.close();
 
         window.scrollTo({
-          top: currentWindowHeight + refs.header.offsetHeight,
+          top: currentWindowHeight,
+          //+ refs.header.offsetHeight,
           left: 0,
           behavior: 'smooth'
         });
@@ -3111,7 +3112,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59497" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52861" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
