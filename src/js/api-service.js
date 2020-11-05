@@ -7,25 +7,41 @@ export default class ApiService {
     this._searchQuery = '';
   }
 
-  fetchImages() {
+  async fetchImages() {
     const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
 
-    return fetch(url)
-      .then(response => response.json())
-      .then(({ hits }) => {
-        return hits;
-      });
+    const images = await fetch(url);
+    const response = await images.json();
+    return response.hits;
   }
 
-  countImages() {
+  // fetchImages() {
+  //   const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+
+  //   return fetch(url)
+  //     .then(response => response.json())
+  //     .then(({ hits }) => {
+  //       return hits;
+  //     });
+  // }
+
+  async countImages() {
     const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
 
-    return fetch(url)
-      .then(response => response.json())
-      .then(({ totalHits }) => {
-        return totalHits;
-      });
+    const images = await fetch(url);
+    const response = await images.json();
+    return response.totalHits;
   }
+
+  // countImages() {
+  //   const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+
+  //   return fetch(url)
+  //     .then(response => response.json())
+  //     .then(({ totalHits }) => {
+  //       return totalHits;
+  //     });
+  // }
 
   get searchQuery() {
     return this._searchQuery;
