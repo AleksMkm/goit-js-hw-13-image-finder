@@ -17,7 +17,7 @@ body {
   padding: 5px;
   margin: 15px;
 
-  width: calc((100% - 120px) / 4);
+  width: calc((100% - 90px) / 3);
 
   border: 1px solid black;
   box-shadow: 4px 4px 8px 0px #000000;
@@ -34,7 +34,7 @@ body {
 .photo-card img {
   display: block;
   width: 100%;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
   cursor: pointer;
   border-top-left-radius: 5px;

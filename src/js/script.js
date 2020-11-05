@@ -75,7 +75,7 @@ function onScroll(e) {
             markup.renderImageCards(data);
             modal.loadingPlaceholder.close();
             window.scrollTo({
-              top: currentWindowHeight + refs.header.offsetHeight,
+              top: currentWindowHeight, //+ refs.header.offsetHeight,
               left: 0,
               behavior: 'smooth',
             });
