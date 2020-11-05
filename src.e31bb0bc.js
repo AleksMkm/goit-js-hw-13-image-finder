@@ -2981,43 +2981,11 @@ function onSearch(e) {
 
   apiService.page = 1;
   apiService.searchQuery = searchField.value;
-  apiService.countImages().then(count => {
-    if (count === 0) {
-      _notifications.default.throwErrorNotFound();
 
-      _lightbox.default.loadingPlaceholder.close();
-
-      return;
-    }
-
-    apiService.fetchImages().then(data => {
-      _markup.default.renderImageCards(data);
-
-      window.addEventListener('scroll', throttledScroll);
-
-      _lightbox.default.loadingPlaceholder.close();
-    }).catch(error => {
-      _notifications.default.throwNotice();
-
-      _lightbox.default.loadingPlaceholder.close();
-    });
-  }).catch(error => {
-    _notifications.default.throwNotice();
-
-    _lightbox.default.loadingPlaceholder.close();
-  });
-  searchField.value = '';
-}
-
-function onScroll(e) {
-  if (pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 1) {
-    _lightbox.default.loadingPlaceholder.show();
-
+  try {
     apiService.countImages().then(count => {
-      if (count === refs.galleryContainer.childElementCount) {
-        _notifications.default.throwInfo();
-
-        window.removeEventListener('scroll', throttledScroll);
+      if (count === 0) {
+        _notifications.default.throwErrorNotFound();
 
         _lightbox.default.loadingPlaceholder.close();
 
@@ -3025,29 +2993,59 @@ function onScroll(e) {
       }
 
       apiService.fetchImages().then(data => {
-        apiService.page += 1;
-        currentWindowHeight = refs.galleryContainer.offsetHeight;
-
         _markup.default.renderImageCards(data);
 
-        _lightbox.default.loadingPlaceholder.close();
-
-        window.scrollTo({
-          top: currentWindowHeight,
-          //+ refs.header.offsetHeight,
-          left: 0,
-          behavior: 'smooth'
-        });
-      }).catch(error => {
-        _notifications.default.throwNotice();
+        window.addEventListener('scroll', throttledScroll);
 
         _lightbox.default.loadingPlaceholder.close();
       });
-    }).catch(error => {
+    });
+  } catch (error) {
+    _notifications.default.throwNotice();
+
+    _lightbox.default.loadingPlaceholder.close();
+  }
+
+  searchField.value = '';
+}
+
+function onScroll(e) {
+  if (pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 1) {
+    _lightbox.default.loadingPlaceholder.show();
+
+    try {
+      apiService.countImages().then(count => {
+        if (count === refs.galleryContainer.childElementCount) {
+          _notifications.default.throwInfo();
+
+          window.removeEventListener('scroll', throttledScroll);
+
+          _lightbox.default.loadingPlaceholder.close();
+
+          return;
+        }
+
+        apiService.fetchImages().then(data => {
+          apiService.page += 1;
+          currentWindowHeight = refs.galleryContainer.offsetHeight;
+
+          _markup.default.renderImageCards(data);
+
+          _lightbox.default.loadingPlaceholder.close();
+
+          window.scrollTo({
+            top: currentWindowHeight,
+            //+ refs.header.offsetHeight,
+            left: 0,
+            behavior: 'smooth'
+          });
+        });
+      });
+    } catch (error) {
       _notifications.default.throwNotice();
 
       _lightbox.default.loadingPlaceholder.close();
-    });
+    }
   }
 }
 
@@ -3098,7 +3096,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63321" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63631" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
