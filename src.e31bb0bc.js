@@ -230,33 +230,23 @@ class ApiService {
 
   async fetchImages() {
     const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
-    const images = await fetch(url);
-    const response = await images.json();
-    return response.hits;
-  } // fetchImages() {
-  //   const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
-  //   return fetch(url)
-  //     .then(response => response.json())
-  //     .then(({ hits }) => {
-  //       return hits;
-  //     });
-  // }
-
+    return this.getData(url).then(response => {
+      return response.hits;
+    });
+  }
 
   async countImages() {
     const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
+    return this.getData(url).then(response => {
+      return response.totalHits;
+    });
+  }
+
+  async getData(url) {
     const images = await fetch(url);
     const response = await images.json();
-    return response.totalHits;
-  } // countImages() {
-  //   const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this._searchQuery}&page=${this._page}&per_page=12&key=${KEY}`;
-  //   return fetch(url)
-  //     .then(response => response.json())
-  //     .then(({ totalHits }) => {
-  //       return totalHits;
-  //     });
-  // }
-
+    return response;
+  }
 
   get searchQuery() {
     return this._searchQuery;
@@ -3108,7 +3098,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64296" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63321" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
